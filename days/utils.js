@@ -19,8 +19,23 @@ module.exports.getInput = day =>
     .catch(error => error);
 
 // only works well for matrices composed of 52 symbols or less
-module.exports.saveMatrix = (matrix, name) => {
-  const matKeys = Object.keys(matrix);
+module.exports.saveMatrix = (matrix, name, dims) => {
+  let minX;
+  let minY;
+  let maxX;
+  let maxY;
+
+  if (!dims) {
+    const matKeys = Object.keys(matrix);
+    minX = Math.min(...matKeys.map(key => key.split('x')[0]));
+    minY = Math.min(...matKeys.map(key => key.split('x')[1]));
+    maxX = Math.max(...matKeys.map(key => key.split('x')[0]));
+    maxY = Math.max(...matKeys.map(key => key.split('x')[1]));
+  } else {
+    [maxX, maxY] = dims;
+    minX = 0;
+    minY = 0;
+  }
 
   const matVals = [...new Set(Object.values(matrix))];
   const symbols = matVals.reduce((ret, matVal, i) => {
@@ -29,13 +44,6 @@ module.exports.saveMatrix = (matrix, name) => {
 
     return { ...ret, [matVal]: symbol };
   }, {});
-
-  console.log(symbols);
-
-  const minX = Math.min(...matKeys.map(key => key.split('x')[0]));
-  const minY = Math.min(...matKeys.map(key => key.split('x')[1]));
-  const maxX = Math.max(...matKeys.map(key => key.split('x')[0]));
-  const maxY = Math.max(...matKeys.map(key => key.split('x')[1]));
 
   let matPlot = '';
   for (let j = minY; j <= maxY; j++) {

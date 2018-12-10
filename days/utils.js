@@ -18,6 +18,9 @@ module.exports.getInput = day =>
     .then(response => response.data)
     .catch(error => error);
 
+/* sums; duh */
+module.exports.sum = vals => vals.reduce((sum, val) => sum + val, 0);
+
 // only works well for matrices composed of 52 symbols or less
 module.exports.saveMatrix = (matrix, name, dims) => {
   let minX;
